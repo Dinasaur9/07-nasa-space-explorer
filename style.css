@@ -1,3 +1,23 @@
+/* NASA brand colors and fonts (NASA Horizon Design System) */
+:root {
+  --font-heading: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-body: 'Public Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-mono: 'DM Mono', 'Courier New', monospace;
+  /* Colors from the NASA Web Design System (nasa.github.io/nasawds-site) */
+  --nasa-blue: #0b3d91;        /* primary-darker */
+  --nasa-blue-bright: #105bd8; /* primary */
+  --nasa-navy: #061f4a;        /* primary-darkest */
+  --nasa-red: #dd361c;         /* secondary */
+  --nasa-red-dark: #c62d1f;    /* secondary-dark */
+  --nasa-black: #212121;       /* base */
+  --space-dark: #061f4a;       /* primary-darkest (page background) */
+  --card-dark: #323a45;        /* gray-dark */
+  --white: #ffffff;            /* white */
+  --gray-light: #d6d7d9;       /* gray-lighter */
+  --gray: #aeb0b5;             /* gray-light */
+  --gray-mid: #5b616b;         /* gray */
+}
+
 /* Global reset & box sizing */
 * {
   box-sizing: border-box;
@@ -7,9 +27,16 @@
 
 /* Base page styles */
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f1f1f1;
+  font-family: var(--font-body);
+  background-color: var(--space-dark);
+  color: var(--white);
   padding: 20px;
+  min-height: 100vh;
+}
+
+/* Stop the page from scrolling behind the modal */
+body.no-scroll {
+  overflow: hidden;
 }
 
 /* Centered container */
@@ -26,18 +53,45 @@ body {
   padding-top: 20px;
   padding-bottom: 20px;
   margin-bottom: 20px;
+  border-bottom: 3px solid var(--nasa-red);
 }
 
 h1 {
-  font-family: Verdana, sans-serif;
-  font-weight: bold;
-  color: #212121;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  color: var(--white);
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
 /* Logo */
 .logo {
   width: 140px;
   margin-right: 15px;
+}
+
+/* "Did You Know?" fact box */
+.fact-box {
+  background-color: var(--nasa-blue);
+  border-left: 6px solid var(--nasa-red);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 0 auto 24px;
+  max-width: 800px;
+}
+
+.fact-label {
+  font-family: var(--font-mono);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.fact-text {
+  font-size: 16px;
+  line-height: 1.5;
 }
 
 /* Date‐picker & button row */
@@ -53,11 +107,11 @@ h1 {
 /* Inputs and buttons */
 input[type="date"],
 button {
-  font-family: Arial, sans-serif;
+  font-family: var(--font-body);
   font-weight: normal;
-  color: #666;
+  color: var(--space-dark);
   padding: 10px 15px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--gray);
   border-radius: 4px;
   font-size: 16px;
   line-height: 1.4;
@@ -66,12 +120,21 @@ button {
 
 /* Button specific */
 button {
-  background-color: #d3d3d3;
-  color: black;
+  background-color: var(--nasa-red);
+  color: var(--white);
+  font-weight: 600;
+  border: none;
   cursor: pointer;
+  transition: background-color 0.2s ease;
 }
+
 button:hover {
-  background-color: #bfbfbf;
+  background-color: var(--nasa-red-dark);
+}
+
+button:disabled {
+  background-color: var(--gray);
+  cursor: wait;
 }
 
 /* Stack horizontally on wider screens */
@@ -80,7 +143,7 @@ button:hover {
     flex-direction: row;
     padding: 0;
   }
-  
+
   input[type="date"],
   button {
     width: auto;
@@ -101,13 +164,22 @@ button:hover {
   flex: 1 1 100%;  /* full width by default */
   min-width: 280px;
   max-width: 500px;
-  background: white;
+  background: var(--card-dark);
   padding: 10px;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  border: 1px solid var(--gray-mid);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.gallery-item:hover,
+.gallery-item:focus {
+  border-color: var(--nasa-red);
+  outline: none;
 }
 
 /* Three columns on wider screens */
@@ -117,28 +189,217 @@ button:hover {
   }
 }
 
+/* Wrapper hides the part of the image that grows on hover */
+.image-wrapper {
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  height: 200px;
+}
+
 .gallery-item img {
   width: 100%;
   height: 200px;
   object-fit: cover;
+  display: block;
+  /* LevelUp: smooth hover zoom */
+  transition: transform 0.4s ease;
+}
+
+.gallery-item:hover img,
+.gallery-item:focus img {
+  transform: scale(1.08);
+}
+
+/* Shown when a video has no thumbnail */
+.no-image {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  background-color: var(--nasa-blue);
+}
+
+/* Video label on top of the thumbnail */
+.video-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background-color: var(--nasa-red);
+  color: var(--white);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 8px;
   border-radius: 4px;
 }
 
 .gallery-item p {
-  margin-top: 10px;
   padding: 5px;
-  font-size: 14px;
 }
 
-/* Placeholder content */
-.placeholder {
+.item-title {
+  font-family: var(--font-heading);
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.item-date {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--gray-light);
+}
+
+/* Placeholder, loading and error messages */
+.placeholder,
+.message {
   flex: 1 1 100%;
   text-align: center;
   padding: 40px;
-  color: #666;
+  color: var(--gray-light);
 }
 
-.placeholder-icon {
+.placeholder-icon,
+.message-icon {
   font-size: 48px;
   margin-bottom: 20px;
+}
+
+.message-hint {
+  margin-top: 10px;
+  font-size: 14px;
+  color: var(--gray);
+}
+
+/* ---------- Modal ---------- */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.85);
+  padding: 20px;
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+.modal.open {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.modal-box {
+  position: relative;
+  background-color: var(--card-dark);
+  border-top: 4px solid var(--nasa-red);
+  border-radius: 8px;
+  max-width: 900px;
+  width: 100%;
+  margin: 40px auto;
+  padding: 24px;
+}
+
+.modal-box img {
+  width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+  border-radius: 4px;
+  background-color: var(--nasa-black);
+}
+
+.modal-box h2 {
+  font-family: var(--font-heading);
+  margin-top: 16px;
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.modal-date {
+  font-family: var(--font-mono);
+  color: var(--gray-light);
+  margin: 6px 0 14px;
+}
+
+.modal-explanation {
+  line-height: 1.6;
+  color: var(--gray-light);
+}
+
+.modal-close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  font-size: 28px;
+  line-height: 1;
+  border-radius: 50%;
+  background-color: var(--nasa-red);
+  z-index: 1;
+}
+
+/* Responsive video embed (16:9) */
+.video-wrapper {
+  position: relative;
+  padding-top: 56.25%;
+}
+
+.video-wrapper iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: 4px;
+}
+
+.video-link {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 12px 18px;
+  background-color: var(--nasa-blue-bright);
+  color: var(--white);
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 4px;
+}
+
+.video-link:hover {
+  background-color: var(--nasa-blue);
+}
+
+/* Dates in the pickers use NASA's monospace font for numbers */
+input[type="date"] {
+  font-family: var(--font-mono);
+}
+
+/* ---------- Responsive tweaks ---------- */
+
+/* Phones: smaller header so it fits nicely */
+@media (max-width: 599px) {
+  h1 {
+    font-size: 22px;
+  }
+
+  .logo {
+    width: 100px;
+  }
+
+  .gallery {
+    padding: 10px 0;
+  }
+
+  .modal-box {
+    padding: 16px;
+    margin: 20px auto;
+  }
+}
+
+/* Tablets: two columns of gallery cards */
+@media (min-width: 600px) and (max-width: 999px) {
+  .gallery-item {
+    flex: 0 1 calc(50% - 10px);
+  }
 }
