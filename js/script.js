@@ -92,11 +92,17 @@ async function getSpaceImages() {
     displayGallery(apodItems);
   } catch (error) {
     console.error('Error fetching APOD data:', error);
+
+    // PWA: when offline, the service worker only has dates you've already loaded
+    const hint = navigator.onLine
+      ? 'Tip: today\'s photo may not be posted yet. Try an earlier start date.'
+      : 'You\'re offline. Only date ranges you viewed while online are saved. Try one of those, or reconnect.';
+
     gallery.innerHTML = `
       <div class="message">
-        <div class="message-icon">⚠️</div>
-        <p>Could not load space photos. ${error.message}</p>
-        <p class="message-hint">Tip: today's photo may not be posted yet. Try an earlier start date.</p>
+        <div class="message-icon">${navigator.onLine ? '⚠️' : '📡'}</div>
+        <p>Could not load space photos. ${navigator.onLine ? error.message : ''}</p>
+        <p class="message-hint">${hint}</p>
       </div>
     `;
   } finally {

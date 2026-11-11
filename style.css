@@ -403,3 +403,119 @@ input[type="date"] {
     flex: 0 1 calc(50% - 10px);
   }
 }
+
+/* ---------------------------------------------
+   PWA: offline banner, install banner, notifications
+   --------------------------------------------- */
+
+/* Make sure anything with the "hidden" attribute really stays hidden */
+[hidden] {
+  display: none !important;
+}
+
+/* Offline indicator: a red bar pinned to the top of the screen */
+.offline-banner {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  margin: -20px -20px 20px;
+  padding: 10px 20px;
+  background-color: var(--nasa-red);
+  color: var(--white);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Small grayscale effect so it's obvious the app is offline */
+body.is-offline .site-header .logo {
+  filter: grayscale(1);
+}
+
+/* Custom install banner */
+.install-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 15px;
+  margin: 0 20px 20px;
+  padding: 15px;
+  background-color: var(--nasa-blue);
+  border: 1px solid var(--nasa-blue-bright);
+  border-left: 5px solid var(--nasa-red);
+  border-radius: 6px;
+}
+
+.install-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+}
+
+.install-text {
+  flex: 1 1 200px;
+}
+
+.install-title {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.install-subtitle {
+  color: var(--gray-light);
+  font-size: 14px;
+}
+
+.install-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.install-actions button {
+  width: auto;
+}
+
+.install-dismiss {
+  background-color: transparent;
+  border: 1px solid var(--gray);
+}
+
+.install-dismiss:hover {
+  background-color: var(--nasa-navy);
+}
+
+/* iPhone install tip */
+.ios-hint {
+  margin: 0 20px 20px;
+  padding: 10px 15px;
+  background-color: var(--card-dark);
+  border-radius: 4px;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Notification button: outlined so it doesn't compete with "Get Space Images" */
+.notify-btn {
+  background-color: transparent;
+  border: 1px solid var(--white);
+}
+
+.notify-btn:hover {
+  background-color: var(--nasa-blue);
+}
+
+.notify-btn:disabled {
+  background-color: transparent;
+  color: var(--gray);
+  border-color: var(--gray-mid);
+  cursor: not-allowed;
+}
+
+/* Respect the iPhone notch/home bar when running full screen */
+@supports (padding: env(safe-area-inset-top)) {
+  body {
+    padding-top: max(20px, env(safe-area-inset-top));
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+  }
+}
